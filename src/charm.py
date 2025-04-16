@@ -21,14 +21,14 @@ class MotdK8SCharm(ops.CharmBase):
 
     def __init__(self, framework: ops.Framework):
         super().__init__(framework)
-        framework.observe(self.on["httpbin"].pebble_ready, self._on_httpbin_pebble_ready)
+        framework.observe(self.on["motd"].pebble_ready, self._on_motd_pebble_ready)
 
-    def _on_httpbin_pebble_ready(self, event: ops.PebbleReadyEvent):
+    def _on_motd_pebble_ready(self, event: ops.PebbleReadyEvent):
         """Deploys the Pebble layer via the Pebble API when Pebble is ready."""
         # Get a reference the container attribute on the PebbleReadyEvent
         container = event.workload
         # Add initial Pebble config layer using the Pebble API
-        container.add_layer("httpbin", self._pebble_layer, combine=True)
+        container.add_layer("motd", self._pebble_layer, combine=True)
         # Make Pebble reevaluate its plan, ensuring any services are started if enabled.
         container.replan()
         # Set Charm status to Active.
